@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El Gas del Perrote | Pedido de gas a domicilio</title>
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="alternate icon" href="favicon.ico" sizes="any" />
+    <link rel="preload" as="image" href="Frame.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800;900&display=optional"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-navbar">
+      <div class="brand-copy">
+        <h1 class="brand-title" aria-label="El Gas del Perrote">
+          <span>El</span>
+          <span>Gas</span>
+          <span>del</span>
+          <span>Perrote</span>
+        </h1>
+        <p>Pedidos de gas a domicilio</p>
+      </div>
+
+      <div class="camion" aria-hidden="true">
+        <div class="vehiculo">
+          <span class="perro-sprite"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="pedido-page">
+      <section class="pedido-card" aria-labelledby="titulo-pedido">
+        <div class="pedido-header">
+          <p class="eyebrow">Pedido rapido por WhatsApp</p>
+        </div>
+
+        <form class="pedido-form" id="pedido-form">
+          <fieldset>
+            <legend>Tipo de gas</legend>
+            <div class="gas-options">
+              <label class="gas-card">
+                <input type="radio" name="tipo-gas" value="5" />
+                <span class="gas-card-content">
+                  <span class="gas-card-info">
+                    <span>Gas 5 kg</span>
+                    <strong>$14.000</strong>
+                  </span>
+                  <span class="gas-card-status">Seleccionado</span>
+                </span>
+              </label>
+              <label class="gas-card">
+                <input type="radio" name="tipo-gas" value="11" />
+                <span class="gas-card-content">
+                  <span class="gas-card-info">
+                    <span>Gas 11 kg</span>
+                    <strong>$19.100</strong>
+                  </span>
+                  <span class="gas-card-status">Seleccionado</span>
+                </span>
+              </label>
+              <label class="gas-card">
+                <input type="radio" name="tipo-gas" value="15" checked />
+                <span class="gas-card-content">
+                  <span class="gas-card-info">
+                    <span>Gas 15 kg</span>
+                    <strong>$25.800</strong>
+                  </span>
+                  <span class="gas-card-status">Seleccionado</span>
+                </span>
+              </label>
+              <label class="gas-card">
+                <input type="radio" name="tipo-gas" value="45" />
+                <span class="gas-card-content">
+                  <span class="gas-card-info">
+                    <span>Gas 45 kg</span>
+                    <strong>$85.800</strong>
+                  </span>
+                  <span class="gas-card-status">Seleccionado</span>
+                </span>
+              </label>
+            </div>
+            <p class="gas-selected" id="gas-seleccionado" aria-live="polite">
+              Seleccionaste: Gas 15 kg - $25.800
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Cantidad</legend>
+            <div class="cantidad-control">
+              <button type="button" id="restar" aria-label="Disminuir cantidad">-</button>
+              <output id="cantidad" aria-live="polite">1</output>
+              <button type="button" id="sumar" aria-label="Aumentar cantidad">+</button>
+            </div>
+          </fieldset>
+
+          <label for="direccion">
+            Direccion de despacho
+            <input
+              id="direccion"
+              name="direccion"
+              type="text"
+              placeholder="Ej: Calle 123, comuna"
+              required
+            />
+          </label>
+
+          <fieldset>
+            <legend>Forma de pago</legend>
+            <div class="option-row option-row--wrap">
+              <label>
+                <input type="radio" name="pago" value="Efectivo" checked />
+                Efectivo
+              </label>
+              <label>
+                <input type="radio" name="pago" value="Transferencia" />
+                Transferencia
+              </label>
+              <label>
+                <input type="radio" name="pago" value="Tarjeta" />
+                Tarjeta
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="pedido-aviso">
+            <strong>Pida Gas del Perrote hasta las 22:30 H</strong>
+            <span
+              >(*) Si no está inscrito para el descuento, el chofer le inscribe en el momento de la
+              compra con su carnet.</span
+            >
+          </div>
+
+          <button class="primary-button" type="button" id="confirmar-pedido">
+            Confirmar pedido
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <dialog class="pedido-dialog" id="pedido-dialog" aria-labelledby="titulo-resumen">
+      <div class="dialog-card">
+        <div class="dialog-header">
+          <p class="eyebrow">Pedido listo</p>
+          <h2 id="titulo-resumen">Resumen del pedido</h2>
+        </div>
+
+        <dl class="resumen-lista">
+          <div>
+            <dt>Producto</dt>
+            <dd id="resumen-producto">Gas 15 kg</dd>
+          </div>
+          <div>
+            <dt>Cantidad</dt>
+            <dd id="resumen-cantidad">1</dd>
+          </div>
+          <div>
+            <dt>Servicio</dt>
+            <dd>Despacho a domicilio</dd>
+          </div>
+          <div>
+            <dt>Pago</dt>
+            <dd id="resumen-pago">Efectivo</dd>
+          </div>
+        </dl>
+
+        <p class="direccion-resumen" id="resumen-direccion">Direccion pendiente</p>
+
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="resumen-total">$25.800</strong>
+        </div>
+
+        <div class="pedido-aviso pedido-aviso--dialog">
+          <strong>Pida Gas del Perrote hasta las 22:30 H</strong>
+          <span
+            >(*) Si no está inscrito para el descuento, el chofer le inscribe en el momento de la
+            compra con su carnet.</span
+          >
+        </div>
+
+        <a class="whatsapp-button" id="whatsapp-link" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <path
+              d="M16.03 3.2A12.76 12.76 0 0 0 5.1 22.56L3.6 28.8l6.38-1.48A12.75 12.75 0 1 0 16.03 3.2Zm0 22.98c-1.93 0-3.81-.54-5.44-1.56l-.39-.24-3.78.88.9-3.68-.26-.38a10.21 10.21 0 1 1 8.97 4.98Zm5.9-7.64c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.26-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.85-1.6-1.9-1.79-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.57-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.57.08-.86.4-.3.32-1.13 1.1-1.13 2.68s1.16 3.11 1.32 3.33c.16.21 2.27 3.47 5.5 4.86.77.33 1.37.53 1.84.68.77.24 1.47.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.14-.29-.22-.61-.38Z"
+            />
+          </svg>
+          Enviar por WhatsApp
+        </a>
+        <button class="dialog-close" type="button" id="editar-pedido">Editar pedido</button>
+      </div>
+    </dialog>
+
+    <script>
+      const precios = {
+        5: 14000,
+        11: 19100,
+        15: 25800,
+        45: 85800,
+      };
+
+      const numeroWhatsApp = '56950119411';
+      const direccionStorageKey = 'gasDelPerroteDireccion';
+      const cantidadOutput = document.querySelector('#cantidad');
+      const direccion = document.querySelector('#direccion');
+      const resumenProducto = document.querySelector('#resumen-producto');
+      const resumenCantidad = document.querySelector('#resumen-cantidad');
+      const resumenPago = document.querySelector('#resumen-pago');
+      const resumenDireccion = document.querySelector('#resumen-direccion');
+      const resumenTotal = document.querySelector('#resumen-total');
+      const gasSeleccionado = document.querySelector('#gas-seleccionado');
+      const whatsappLink = document.querySelector('#whatsapp-link');
+      const confirmarPedido = document.querySelector('#confirmar-pedido');
+      const pedidoDialog = document.querySelector('#pedido-dialog');
+      const editarPedido = document.querySelector('#editar-pedido');
+      const camion = document.querySelector('.camion');
+      const vehiculo = document.querySelector('.vehiculo');
+      const perroSprite = document.querySelector('.perro-sprite');
+      const posicionesSprite = ['0%', '33.333%', '66.666%', '100%'];
+      let cantidad = 1;
+      let ultimoPerro = -1;
+      let intervaloPerros;
+      let timeoutMovimientoSprite;
+
+      const direccionGuardada = localStorage.getItem(direccionStorageKey);
+
+      if (direccionGuardada) {
+        direccion.value = direccionGuardada;
+      }
+
+      function formatearPrecio(valor) {
+        return new Intl.NumberFormat('es-CL', {
+          style: 'currency',
+          currency: 'CLP',
+          maximumFractionDigits: 0,
+        }).format(valor);
+      }
+
+      function tipoGasSeleccionado() {
+        return document.querySelector('input[name="tipo-gas"]:checked').value;
+      }
+
+      function datosPedido() {
+        const kilos = tipoGasSeleccionado();
+        const producto = `Gas ${kilos} kg`;
+        const pago = document.querySelector('input[name="pago"]:checked').value;
+        const total = precios[kilos] * cantidad;
+
+        return {
+          producto,
+          pago,
+          total,
+          direccion: direccion.value.trim(),
+        };
+      }
+
+      function actualizarPedido() {
+        const pedido = datosPedido();
+
+        cantidadOutput.textContent = cantidad;
+        gasSeleccionado.textContent = `Seleccionaste: ${pedido.producto} - ${formatearPrecio(precios[tipoGasSeleccionado()])}`;
+        resumenProducto.textContent = pedido.producto;
+        resumenCantidad.textContent = cantidad;
+        resumenPago.textContent = pedido.pago;
+        resumenDireccion.textContent = pedido.direccion || 'Direccion pendiente';
+        resumenTotal.textContent = formatearPrecio(pedido.total);
+
+        const mensaje = [
+          'Hola, quiero hacer un pedido de gas:',
+          '',
+          `Producto: ${pedido.producto}`,
+          `Cantidad: ${cantidad}`,
+          'Servicio: Despacho a domicilio',
+          `Direccion: ${pedido.direccion || 'Pendiente'}`,
+          `Forma de pago: ${pedido.pago}`,
+          `Total: ${formatearPrecio(pedido.total)}`,
+          '',
+          'PIDA GAS DEL PERROTE HASTA LAS 22:30 H',
+          '(*) Si no está inscrito para el descuento, el chofer le inscribe en el momento de la compra con su carnet.',
+        ]
+          .filter(Boolean)
+          .join('\n');
+
+        whatsappLink.href = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+      }
+
+      function mostrarPerroAleatorio() {
+        let perroActual = Math.floor(Math.random() * posicionesSprite.length);
+
+        if (posicionesSprite.length > 1) {
+          while (perroActual === ultimoPerro) {
+            perroActual = Math.floor(Math.random() * posicionesSprite.length);
+          }
+        }
+
+        perroSprite.style.setProperty('--sprite-position', posicionesSprite[perroActual]);
+
+        ultimoPerro = perroActual;
+      }
+
+      function programarMovimientoSprite() {
+        clearTimeout(timeoutMovimientoSprite);
+
+        timeoutMovimientoSprite = setTimeout(
+          () => {
+            camion.classList.add('sprite-en-movimiento');
+          },
+          2200 + Math.random() * 4200
+        );
+      }
+
+      document.querySelector('#restar').addEventListener('click', () => {
+        cantidad = Math.max(1, cantidad - 1);
+        actualizarPedido();
+      });
+
+      document.querySelector('#sumar').addEventListener('click', () => {
+        cantidad += 1;
+        actualizarPedido();
+      });
+
+      document.querySelector('#pedido-form').addEventListener('input', () => {
+        if (direccion.value.trim()) {
+          direccion.classList.remove('campo-invalido');
+        }
+
+        localStorage.setItem(direccionStorageKey, direccion.value.trim());
+
+        actualizarPedido();
+      });
+
+      confirmarPedido.addEventListener('click', () => {
+        actualizarPedido();
+
+        if (!direccion.value.trim()) {
+          direccion.classList.add('campo-invalido');
+          direccion.focus();
+          return;
+        }
+
+        direccion.classList.remove('campo-invalido');
+
+        if (typeof pedidoDialog.showModal === 'function') {
+          pedidoDialog.showModal();
+        } else {
+          pedidoDialog.setAttribute('open', '');
+        }
+      });
+
+      editarPedido.addEventListener('click', () => {
+        pedidoDialog.close();
+      });
+
+      vehiculo.addEventListener('animationend', (event) => {
+        if (event.animationName !== 'moverYMirar') return;
+
+        camion.classList.add('animacion-terminada');
+        mostrarPerroAleatorio();
+        clearInterval(intervaloPerros);
+        intervaloPerros = setInterval(mostrarPerroAleatorio, 800);
+        programarMovimientoSprite();
+      });
+
+      perroSprite.addEventListener('animationend', (event) => {
+        if (event.animationName !== 'avanzarSprite') return;
+
+        camion.classList.remove('sprite-en-movimiento');
+        programarMovimientoSprite();
+      });
+
+      actualizarPedido();
+    </script>
+  </body>
+</html>
